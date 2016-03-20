@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.firebase.client.Firebase;
+
 
 public class PlayerIntentsReceiver extends BroadcastReceiver {
     public static String TRACK_CHANGED_ACTION = "com.example.android.trackchanged";
@@ -23,9 +25,17 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
             String album = extras.getString("album");
             String artist = extras.getString("artist");
             Long duration = extras.getLong("duration");
-            MyApplication.setTrack(
-                    new Track(track, artist, album, 0, System.currentTimeMillis() / 1000L, duration)
-            );
+            Track nowPlaying = new Track(track, artist, album, 0, System.currentTimeMillis() / 1000L, duration);
+            if (nowPlaying != MyApplication.getTrack()) {
+                MyApplication.setTrack(
+                        nowPlaying
+                );
+                //send track to backend
+                Log.d("intent", "Sending track to backend.");
+                Firebase.setAndroidContext(context);
+                Firebase firebase = new Firebase("https://vivid-fire-5367.firebaseio.com/");
+                firebase.child("tracks").push().setValue(nowPlaying);
+            }
         }
 
         //if (MyApplication.isMainActivityInForeground()) {

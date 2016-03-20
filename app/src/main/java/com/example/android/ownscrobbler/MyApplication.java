@@ -3,10 +3,17 @@ package com.example.android.ownscrobbler;
 import android.app.Application;
 import android.util.Log;
 
+import com.firebase.client.Firebase;
+
 
 public class MyApplication extends Application {
     private static boolean isMainActivityInForeground = false;
     private static Track track;
+    private static Firebase firebase;
+
+    public static Firebase getFirebase() {
+        return firebase;
+    }
 
     public static boolean isMainActivityInForeground() {
         Log.d("intent", "Check for an activity");
@@ -23,5 +30,11 @@ public class MyApplication extends Application {
 
     public static void setTrack(Track track) {
         MyApplication.track = track;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
     }
 }
