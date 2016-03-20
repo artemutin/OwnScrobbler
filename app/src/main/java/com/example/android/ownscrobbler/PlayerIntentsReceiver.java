@@ -8,6 +8,7 @@ import android.util.Log;
 
 
 public class PlayerIntentsReceiver extends BroadcastReceiver {
+    public static String TRACK_CHANGED_ACTION = "com.example.android.trackchanged";
     public PlayerIntentsReceiver() {
     }
 
@@ -27,9 +28,10 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
             );
         }
 
-        if (MyApplication.isMainActivityInForeground()) {
-            Intent trackNotifier = new Intent("com.example.android.trackchanged");
+        //if (MyApplication.isMainActivityInForeground()) {
+        Intent trackNotifier = new Intent(TRACK_CHANGED_ACTION);
+        //trackNotifier.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             context.sendBroadcast(trackNotifier);
-        }
+        //}
     }
 }
