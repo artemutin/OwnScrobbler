@@ -13,4 +13,8 @@
         <item name="android:layout_marginLeft">16dp</item>
 
     </style>
+
+    <style name="ListItem">
+        <item name="android:padding">0dp</item>
+    </style>
 </resources>
