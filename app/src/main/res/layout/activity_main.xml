@@ -17,7 +17,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Now playing:" />
+            android:text="Now playing:"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/songTextView"
@@ -35,7 +36,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Logging:" />
+            android:text="Logging:"
+            android:textStyle="bold" />
 
         <Switch
             android:id="@+id/logSwitcher"
@@ -47,10 +49,20 @@
             android:textOn="On" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Recent 10 played songs:"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:theme="@style/Main" />
+
     <ListView
         android:id="@+id/logList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="352dp"
         android:divider="@color/colorPrimaryDark"
         android:dividerHeight="1dp"
         android:stackFromBottom="true"
