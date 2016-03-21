@@ -45,5 +45,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         MyApplication.setIsMainActivityInForeground(false);
+        //this.unregisterReceiver(this.trackReceiver);
     }
 }
