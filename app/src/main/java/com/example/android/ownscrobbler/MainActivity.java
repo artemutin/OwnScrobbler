@@ -7,7 +7,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView trackView;
     private TextView songTextView;
+    private Switch switcher;
     private BroadcastReceiver trackReceiver;
     private FirebaseListAdapter<Track> listAdapter;
     private Query last10Songs;
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.songTextView = (TextView) findViewById(R.id.songTextView);
-        MyApplication.setIsMainActivityInForeground(true);
+
         updateNowPlaying();
 
         this.trackReceiver = new BroadcastReceiver() {
@@ -63,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         trackView.setAdapter(listAdapter);
+
+        this.switcher = (Switch) findViewById(R.id.logSwitcher);
+        this.switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                MyApplication.isLoggingEnabled = isChecked;
+            }
+        });
     }
 
     @Override
@@ -75,6 +86,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MyApplication.setIsMainActivityInForeground(false);
+
     }
 }

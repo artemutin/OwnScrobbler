@@ -1,7 +1,6 @@
 package com.example.android.ownscrobbler;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -11,21 +10,13 @@ import com.firebase.client.ValueEventListener;
 
 public class MyApplication extends Application {
     public static String FIREBASE_URL = "https://vivid-fire-5367.firebaseio.com/";
-    private static boolean isMainActivityInForeground = false;
+    public static boolean isLoggingEnabled = false;
+
     private static Track track;
     private static Firebase firebase;
 
     public static Firebase getFirebase() {
         return firebase;
-    }
-
-    public static boolean isMainActivityInForeground() {
-        Log.d("intent", "Check for an activity");
-        return isMainActivityInForeground;
-    }
-
-    public static void setIsMainActivityInForeground(boolean isMainActivityInForeground) {
-        MyApplication.isMainActivityInForeground = isMainActivityInForeground;
     }
 
     public static Track getTrack() {

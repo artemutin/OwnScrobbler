@@ -40,6 +40,7 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
                 MyApplication.setTrack(
                         nowPlaying
                 );
+
                 //sending new track to backend
                 Log.d("intent", "Sending track to backend.");
                 MyApplication.getFirebase().child("tracks").push().setValue(nowPlaying);
@@ -51,10 +52,8 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
             }
         }
 
-        //if (MyApplication.isMainActivityInForeground()) {
+
         Intent trackNotifier = new Intent(TRACK_CHANGED_ACTION);
-        //trackNotifier.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            context.sendBroadcast(trackNotifier);
-        //}
+        context.sendBroadcast(trackNotifier);
     }
 }
