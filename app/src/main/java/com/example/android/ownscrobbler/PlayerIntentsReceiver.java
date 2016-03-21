@@ -11,6 +11,7 @@ import com.firebase.client.Firebase;
 
 public class PlayerIntentsReceiver extends BroadcastReceiver {
     public static String TRACK_CHANGED_ACTION = "com.example.android.trackchanged";
+
     public PlayerIntentsReceiver() {
     }
 
@@ -18,6 +19,7 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d("intent", "Was received:" + intent.toString());
         boolean isPlaying = intent.getBooleanExtra("playing", false);
+        Track previousTrack = MyApplication.getTrack();
 
         if (isPlaying) {
             Bundle extras = intent.getExtras();
@@ -25,7 +27,7 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
             String album = extras.getString("album");
             String artist = extras.getString("artist");
             Long duration = extras.getLong("duration");
-            Track nowPlaying = new Track(track, artist, album, 0, System.currentTimeMillis() / 1000L, duration);
+            Track nowPlaying = new Track(track, artist, album, Track.PLAYING, System.currentTimeMillis() / 1000L, duration);
             if (nowPlaying != MyApplication.getTrack()) {
                 MyApplication.setTrack(
                         nowPlaying
@@ -35,6 +37,11 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
                 Firebase.setAndroidContext(context);
                 Firebase firebase = new Firebase(MyApplication.FIREBASE_URL);
                 firebase.child("tracks").push().setValue(nowPlaying);
+            }
+        } else {
+            if (previousTrack.getStatus() == Track.PLAYING) {
+                previousTrack.setStatus(Track.PAUSED);
+                MyApplication.getFirebase().child("tracks").limitToLast(1).getRef().setValue(previousTrack);
             }
         }
 
