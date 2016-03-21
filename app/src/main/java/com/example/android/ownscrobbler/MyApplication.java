@@ -7,6 +7,7 @@ import com.firebase.client.Firebase;
 
 
 public class MyApplication extends Application {
+    public static String FIREBASE_URL = "https://vivid-fire-5367.firebaseio.com/";
     private static boolean isMainActivityInForeground = false;
     private static Track track;
     private static Firebase firebase;

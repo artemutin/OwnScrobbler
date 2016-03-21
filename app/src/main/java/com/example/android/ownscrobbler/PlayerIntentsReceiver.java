@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.firebase.client.Firebase;
-import com.firebase.client.ServerValue;
 
 
 public class PlayerIntentsReceiver extends BroadcastReceiver {
@@ -34,7 +33,7 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
                 //send track to backend
                 Log.d("intent", "Sending track to backend.");
                 Firebase.setAndroidContext(context);
-                Firebase firebase = new Firebase("https://vivid-fire-5367.firebaseio.com/");
+                Firebase firebase = new Firebase(MyApplication.FIREBASE_URL);
                 firebase.child("tracks").push().setValue(nowPlaying);
             }
         }

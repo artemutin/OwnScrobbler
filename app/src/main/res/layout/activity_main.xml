@@ -50,5 +50,9 @@
         android:id="@+id/logList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:theme="@style/Main"></ListView>
+        android:divider="@color/colorPrimaryDark"
+        android:dividerHeight="1dp"
+        android:stackFromBottom="true"
+        android:theme="@style/Main"
+        android:transcriptMode="normal"></ListView>
 </LinearLayout>
