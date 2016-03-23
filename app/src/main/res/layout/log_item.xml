@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -8,7 +8,7 @@
         android:id="@+id/track"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_alignParentLeft="true"
 
         android:maxLines="1"
         android:theme="@style/ListItem" />
@@ -17,11 +17,12 @@
         android:id="@+id/artist"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_alignBottom="@id/track"
+        android:layout_alignParentLeft="true"
 
         android:maxLines="1"
         android:theme="@style/ListItem" />
-
+    <!--
     <TextView
         android:id="@+id/album"
         android:layout_width="0dp"
@@ -30,13 +31,23 @@
 
         android:maxLines="1"
         android:theme="@style/ListItem" />
+        !-->
 
     <TextView
         android:id="@+id/datetime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+
 
         android:maxLines="1"
         android:theme="@style/ListItem" />
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/datetime"
+
+        android:maxLines="1"
+        android:theme="@style/ListItem" />
+</RelativeLayout>

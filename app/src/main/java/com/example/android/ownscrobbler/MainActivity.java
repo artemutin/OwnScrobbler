@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
             protected void populateView(View view, Track track, int i) {
                 ((TextView) view.findViewById(R.id.track)).setText(track.track);
                 ((TextView) view.findViewById(R.id.artist)).setText(track.artist);
-                ((TextView) view.findViewById(R.id.album)).setText(track.album);
+                //((TextView) view.findViewById(R.id.album)).setText(track.album);
+                ((TextView) view.findViewById(R.id.status)).setText("Played");
                 ((TextView) view.findViewById(R.id.datetime)).setText(new Date(track.datetime).toString());
             }
         };
