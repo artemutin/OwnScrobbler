@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -15,8 +16,6 @@ import android.widget.TextView;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 import com.firebase.ui.FirebaseListAdapter;
-
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         };
         this.registerReceiver(this.trackReceiver,
                 new IntentFilter(PlayerIntentsReceiver.TRACK_CHANGED_ACTION));
-
         this.trackView = (ListView) findViewById(R.id.logList);
         Firebase.setAndroidContext(this);
         this.last10Songs = new Firebase(MyApplication.FIREBASE_URL).child("tracks").limitToLast(10);
@@ -63,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) view.findViewById(R.id.artist)).setText(track.artist);
                 //((TextView) view.findViewById(R.id.album)).setText(track.album);
                 ((TextView) view.findViewById(R.id.status)).setText("Played");
-                ((TextView) view.findViewById(R.id.datetime)).setText(new Date(track.datetime).toString());
+                ((TextView) view.findViewById(R.id.datetime)).setText(
+                        DateUtils.getRelativeTimeSpanString(view.getContext(), track.datetime * 1000L, true)
+                );
             }
         };
         trackView.setAdapter(listAdapter);

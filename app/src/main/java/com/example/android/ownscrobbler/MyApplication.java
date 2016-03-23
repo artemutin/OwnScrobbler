@@ -1,12 +1,12 @@
 package com.example.android.ownscrobbler;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-
 
 public class MyApplication extends Application {
     public static String FIREBASE_URL = "https://vivid-fire-5367.firebaseio.com/";

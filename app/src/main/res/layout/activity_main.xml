@@ -65,6 +65,7 @@
         android:layout_height="352dp"
         android:divider="@color/colorPrimaryDark"
         android:dividerHeight="1dp"
+        android:elevation="@dimen/abc_dialog_padding_material"
         android:stackFromBottom="true"
         android:theme="@style/Main"
         android:transcriptMode="normal"></ListView>
