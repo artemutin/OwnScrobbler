@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.firebase.client.Firebase;
-
 
 public class PlayerIntentsReceiver extends BroadcastReceiver {
     public static String TRACK_CHANGED_ACTION = "com.example.android.trackchanged";
@@ -27,16 +25,24 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
             String album = extras.getString("album");
             String artist = extras.getString("artist");
             Long duration = extras.getLong("duration");
-            Track nowPlaying = new Track(track, artist, album, Track.PLAYING, System.currentTimeMillis() / 1000L, duration);
-            if (nowPlaying != MyApplication.getTrack()) {
+            Log.d("intent", track + " " + "album" + " " + "artist" + " " + "duration");
+            Track nowPlaying = new Track(track, artist, album, Track.PLAYING, System.currentTimeMillis() / 1000L, duration / 1000L);
+
+            if (nowPlaying != previousTrack) {
+                if (previousTrack.status == Track.PLAYING && //if last time track was played
+                        (nowPlaying.datetime - previousTrack.datetime) < 0.4 * previousTrack.duration) {//skipped, if played less than 40% of length
+                    //track was skipped
+                    previousTrack.setStatus(Track.SKIPPED);
+                }//otherwise assuming track was played normally
+                previousTrack.setDatetime(nowPlaying.datetime);
+                //update previous track record
+                MyApplication.getFirebase().child("tracks").limitToLast(1).getRef().setValue(previousTrack);
                 MyApplication.setTrack(
                         nowPlaying
                 );
-                //send track to backend
+                //sending new track to backend
                 Log.d("intent", "Sending track to backend.");
-                Firebase.setAndroidContext(context);
-                Firebase firebase = new Firebase(MyApplication.FIREBASE_URL);
-                firebase.child("tracks").push().setValue(nowPlaying);
+                MyApplication.getFirebase().child("tracks").push().setValue(nowPlaying);
             }
         } else {
             if (previousTrack.getStatus() == Track.PLAYING) {

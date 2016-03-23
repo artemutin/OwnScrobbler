@@ -46,7 +46,7 @@ public class MyApplication extends Application {
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        MyApplication.track = (Track) dataSnapshot.getValue();
+                        MyApplication.track = (Track) dataSnapshot.child("tracks").getValue();
                     }
 
                     @Override
