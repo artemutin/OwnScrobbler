@@ -15,6 +15,7 @@ public class MyApplication extends Application {
     private static Track track;
     private static Firebase firebase;
 
+
     public static Firebase getFirebase() {
         return firebase;
     }
