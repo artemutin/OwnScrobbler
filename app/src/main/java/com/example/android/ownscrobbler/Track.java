@@ -1,7 +1,7 @@
 package com.example.android.ownscrobbler;
 
 public class Track {
-    public static int PLAYING = 1, PAUSED = 2, SKIPPED = 3;
+    public final static int PLAYING = 1, PAUSED = 2, SKIPPED = 3;
     String track, artist, album;
     int status;
     long datetime;

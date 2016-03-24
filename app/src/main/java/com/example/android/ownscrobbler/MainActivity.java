@@ -34,6 +34,22 @@ public class MainActivity extends AppCompatActivity {
             this.songTextView.setText("Nothing");
         }
     }
+
+
+    //get... is used for reflection
+    public String formateStatusString(Track track) {
+        switch (track.status) {
+            case Track.PLAYING:
+                return "Played";
+            case Track.PAUSED:
+                return "Paused";
+            case Track.SKIPPED:
+                return "Skipped";
+            default:
+                return "Played";
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 new IntentFilter(PlayerIntentsReceiver.TRACK_CHANGED_ACTION));
         this.trackView = (ListView) findViewById(R.id.logList);
         Firebase.setAndroidContext(this);
-        this.last10Songs = new Firebase(MyApplication.FIREBASE_URL).child("tracks").limitToLast(10);
+        this.last10Songs = MyApplication.getFirebase().child("tracks").limitToLast(10);
         this.listAdapter = new FirebaseListAdapter<Track>(this, Track.class,
                 R.layout.log_item, last10Songs) {
             @Override
@@ -60,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) view.findViewById(R.id.track)).setText(track.track);
                 ((TextView) view.findViewById(R.id.artist)).setText(track.artist);
                 //((TextView) view.findViewById(R.id.album)).setText(track.album);
-                ((TextView) view.findViewById(R.id.status)).setText("Played");
+                ((TextView) view.findViewById(R.id.status)).setText(formateStatusString(track));
                 ((TextView) view.findViewById(R.id.datetime)).setText(
                         DateUtils.getRelativeTimeSpanString(view.getContext(), track.datetime * 1000L, true)
                 );

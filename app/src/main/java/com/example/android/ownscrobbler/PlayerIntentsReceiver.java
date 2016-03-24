@@ -6,11 +6,55 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+
 
 public class PlayerIntentsReceiver extends BroadcastReceiver {
     public static String TRACK_CHANGED_ACTION = "com.example.android.trackchanged";
 
     public PlayerIntentsReceiver() {
+    }
+
+    private void sendNewTrack(Track track) {
+        //sending new track to backend
+        Log.d("intent", "Sending track to backend.");
+        MyApplication.getFirebase().child("tracks").push().setValue(track);
+        MyApplication.setTrack(track);
+    }
+
+    private void updatePreviousTrack(final Track track) {
+        //update previous track record
+        MyApplication.getFirebase().child("tracks").orderByChild("datetime").limitToLast(1).addChildEventListener(
+                new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Log.d("backend", dataSnapshot.getKey() + ":" + dataSnapshot.getValue());
+                        dataSnapshot.getRef().setValue(track);
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+
     }
 
     @Override
@@ -25,9 +69,12 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
             String album = extras.getString("album");
             String artist = extras.getString("artist");
             Long duration = extras.getLong("duration");
-            Log.d("intent", track + " " + "album" + " " + "artist" + " " + "duration");
+            Log.d("intent", track + " " + album + " " + artist + " " + duration);
             Track nowPlaying = new Track(track, artist, album, Track.PLAYING, System.currentTimeMillis() / 1000L, duration / 1000L);
-
+            if (previousTrack == null) {
+                sendNewTrack(nowPlaying);
+                return;
+            }
             if (nowPlaying != previousTrack) {
                 if (previousTrack.status == Track.PLAYING && //if last time track was played
                         (nowPlaying.datetime - previousTrack.datetime) < 0.4 * previousTrack.duration) {//skipped, if played less than 40% of length
@@ -35,20 +82,15 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
                     previousTrack.setStatus(Track.SKIPPED);
                 }//otherwise assuming track was played normally
                 previousTrack.setDatetime(nowPlaying.datetime);
-                //update previous track record
-                MyApplication.getFirebase().child("tracks").limitToLast(1).getRef().setValue(previousTrack);
-                MyApplication.setTrack(
-                        nowPlaying
-                );
 
-                //sending new track to backend
-                Log.d("intent", "Sending track to backend.");
-                MyApplication.getFirebase().child("tracks").push().setValue(nowPlaying);
+                updatePreviousTrack(previousTrack);
+
+                sendNewTrack(nowPlaying);
             }
         } else {
-            if (previousTrack.getStatus() == Track.PLAYING) {
+            if (previousTrack != null && previousTrack.getStatus() == Track.PLAYING) {
                 previousTrack.setStatus(Track.PAUSED);
-                MyApplication.getFirebase().child("tracks").limitToLast(1).getRef().setValue(previousTrack);
+                updatePreviousTrack(previousTrack);
             }
         }
 
