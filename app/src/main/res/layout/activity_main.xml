@@ -18,14 +18,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Now playing:"
-            android:textStyle="bold" />
+            android:theme="@style/MainListItem" />
 
         <TextView
             android:id="@+id/songTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="Nothing" />
+            android:text="Nothing"
+            android:textSize="16dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logging:"
-            android:textStyle="bold" />
+            android:theme="@style/MainListItem" />
 
         <Switch
             android:id="@+id/logSwitcher"
@@ -46,23 +47,24 @@
             android:layout_marginLeft="16dp"
             android:showText="true"
             android:textOff="Off"
-            android:textOn="On" />
+            android:textOn="On"
+            android:theme="@style/MainListItem" />
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Recent 10 played songs:"
-        android:textColor="@color/colorAccent"
+        android:layout_marginTop="32dp"
+        android:text="Recent 5 played songs:"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
-        android:theme="@style/Main" />
+        android:theme="@style/MainListItem" />
 
     <ListView
         android:id="@+id/logList"
         android:layout_width="match_parent"
-        android:layout_height="352dp"
+        android:layout_height="wrap_content"
         android:divider="@color/colorPrimaryDark"
         android:dividerHeight="1dp"
         android:elevation="@dimen/abc_dialog_padding_material"

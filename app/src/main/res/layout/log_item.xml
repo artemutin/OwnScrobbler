@@ -11,7 +11,7 @@
         android:layout_alignParentLeft="true"
 
         android:maxLines="1"
-        android:theme="@style/ListItem" />
+        android:theme="@style/MainListItem" />
 
     <TextView
         android:id="@+id/artist"
@@ -22,7 +22,8 @@
         android:layout_below="@id/track"
 
         android:maxLines="1"
-        android:theme="@style/ListItem" />
+
+        android:theme="@style/SecondaryListItem" />
     <!--
     <TextView
         android:id="@+id/album"
@@ -39,20 +40,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/track"
-
         android:maxLines="1"
-        android:theme="@style/ListItem" />
+        android:theme="@style/MainListItem" />
 
     <TextView
         android:id="@+id/datetime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+
         android:layout_below="@id/status"
-        android:layout_toRightOf="@id/artist"
         android:maxLines="1"
-        android:theme="@style/ListItem" />
+        android:theme="@style/SecondaryListItem" />
 
 
 </RelativeLayout>
