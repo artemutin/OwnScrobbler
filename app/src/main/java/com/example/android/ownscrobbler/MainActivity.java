@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
-import com.firebase.ui.FirebaseListAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 );
             }
         };
+        this.listAdapter.setInvertedOrder(true);
         trackView.setAdapter(listAdapter);
 
         this.switcher = (Switch) findViewById(R.id.logSwitcher);
