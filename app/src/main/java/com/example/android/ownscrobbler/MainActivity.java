@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver trackReceiver;
     private FirebaseListAdapter<Track> listAdapter;
     private Query last10Songs;
+    private SharedPreferences prefs;
 
     private void updateNowPlaying() {
         Track track = MyApplication.getTrack();
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.prefs = getPreferences(0);
+        MyApplication.isLoggingEnabled = prefs.getBoolean("isLoggingEnabled", true);
+
         this.songTextView = (TextView) findViewById(R.id.songTextView);
 
         updateNowPlaying();
@@ -85,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         trackView.setAdapter(listAdapter);
 
         this.switcher = (Switch) findViewById(R.id.logSwitcher);
+        this.switcher.setChecked(MyApplication.isLoggingEnabled);
         this.switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -103,6 +109,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        prefs.edit().putBoolean("isLoggingEnabled", MyApplication.isLoggingEnabled).commit();
     }
 }
