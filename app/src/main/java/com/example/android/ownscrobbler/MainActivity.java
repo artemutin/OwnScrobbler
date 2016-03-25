@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 new IntentFilter(PlayerIntentsReceiver.TRACK_CHANGED_ACTION));
         this.trackView = (ListView) findViewById(R.id.logList);
         Firebase.setAndroidContext(this);
-        this.last10Songs = MyApplication.getFirebase().child("tracks").startAt().orderByChild("datetime").limitToLast(5);
+        this.last10Songs = MyApplication.getFirebase().child("tracks").orderByChild("datetime").limitToLast(5);
         this.listAdapter = new FirebaseListAdapter<Track>(this, Track.class,
                 R.layout.log_item, last10Songs) {
             @Override

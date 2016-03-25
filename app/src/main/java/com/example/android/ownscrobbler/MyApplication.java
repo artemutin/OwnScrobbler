@@ -10,7 +10,7 @@ import com.firebase.client.ValueEventListener;
 
 public class MyApplication extends Application {
     public static String FIREBASE_URL = "https://vivid-fire-5367.firebaseio.com/";
-    public static boolean isLoggingEnabled = false;
+    public static boolean isLoggingEnabled = true;
 
     private static Track track;
     private static Firebase firebase;
@@ -38,7 +38,7 @@ public class MyApplication extends Application {
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        MyApplication.track = dataSnapshot.child("tracks").getValue(Track.class);
+                        MyApplication.track = dataSnapshot.getChildren().iterator().next().getValue(Track.class);
                     }
 
                     @Override

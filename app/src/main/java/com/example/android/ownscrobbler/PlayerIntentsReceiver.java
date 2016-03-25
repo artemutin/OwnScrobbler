@@ -23,17 +23,21 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
 
     private void sendNewTrack(Track track) {
         //sending new track to backend
-        Log.d("intent", "Sending track to backend.");
-        tracks_reference.push().setValue(track);
+        if (MyApplication.isLoggingEnabled) {
+            Log.d("intent", "Sending track to backend.");
+            tracks_reference.push().setValue(track);
+        }
         MyApplication.setTrack(track);
     }
 
     private void updatePreviousTrack(final Track track) {
         //update previous track record
-        this.track = track;
-        tracks_reference.orderByChild("datetime").limitToLast(1).addChildEventListener(
-                this.updateListener
-        );
+        if (MyApplication.isLoggingEnabled) {
+            this.track = track;
+            tracks_reference.orderByChild("datetime").limitToLast(1).addChildEventListener(
+                    this.updateListener
+            );
+        }
 
 
     }
@@ -41,6 +45,7 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("intent", "Was received:" + intent.toString());
+
         boolean isPlaying = intent.getBooleanExtra("playing", false);
         Track previousTrack = MyApplication.getTrack();
         if (this.updateListener != null) {
