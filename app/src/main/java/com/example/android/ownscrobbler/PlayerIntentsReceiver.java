@@ -67,11 +67,20 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
                 sendNewTrack(nowPlaying);
                 return;
             }
+
             if (!nowPlaying.equals(previousTrack)) {
                 if (previousTrack.status == Track.PLAYING && //if last time track was played
                         (nowPlaying.datetime - previousTrack.datetime) < 0.4 * previousTrack.duration) {//skipped, if played less than 40% of length
                     //track was skipped
                     previousTrack.setStatus(Track.SKIPPED);
+                } else if (previousTrack.status == Track.PAUSED &&
+                        previousTrack.datetime - nowPlaying.datetime < 3) {
+                    //after normal end of one track we will receive two intents
+                    //first one without playing anything - means stop of previous track
+                    //and second one with new playing track
+                    //to distinguish between explicit pause and this first intent
+                    //we need to compare datetime in second intent
+                    previousTrack.setStatus(Track.PLAYING);
                 }//otherwise assuming track was played normally
                 previousTrack.setDatetime(nowPlaying.datetime);
 
@@ -80,12 +89,13 @@ public class PlayerIntentsReceiver extends BroadcastReceiver {
                 sendNewTrack(nowPlaying);
             } else {
                 //track was paused but now resumed
+                MyApplication.setTrack(nowPlaying);
                 updatePreviousTrack(nowPlaying);
             }
         } else {
             if (previousTrack != null && previousTrack.getStatus() == Track.PLAYING) {
                 previousTrack.setStatus(Track.PAUSED);
-                updatePreviousTrack(previousTrack);
+                //updatePreviousTrack(previousTrack);
             }
         }
 
